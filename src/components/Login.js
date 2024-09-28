@@ -1,37 +1,74 @@
 import { useState, useRef } from "react";
 import Header from "./Header";
 import { validate } from "../utils/Validate";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 function Login() {
-  const [isSignIn, setIsSignIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(false);  // false means sign-in, true means sign-up
   const [data, setData] = useState(null);
 
   const clicked = () => {
     setIsSignIn(!isSignIn);
+    
+    if (emailRef.current) emailRef.current.value = "";
+    
+    if (passwordRef.current) passwordRef.current.value = "";
+    
+    setData(null);
   };
 
   const emailRef = useRef(null);
-  const nameRef = useRef(null);
   const passwordRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
-    const fullName = isSignIn ? null : nameRef.current.value; // Access only if not signing in
     const password = passwordRef.current.value;
 
-    const validationResult = validate(email, fullName, password);
+    const validationResult = validate(email, password);
     setData(validationResult);
+
+    if (validationResult) {
+      return;
+    }
+
+    // Sign-up (when isSignIn is true)
+    if (isSignIn) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // User signed up
+          const user = userCredential.user;
+          setData("succesfully signed up!")
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          setData(errorMessage);
+        });
+    } 
+    // Sign-in (when isSignIn is false)
+    else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // User signed in
+          const user = userCredential.user;
+          setData("succesfully signed in!")
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          setData(errorMessage);
+        });
+    }
   };
 
   return (
     <div>
       <Header />
       <div>
-        <img 
-          className="w-[100%] h-[100%] absolute object-cover" 
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/bfc0fc46-24f6-4d70-85b3-7799315c01dd/web/IN-en-20240923-TRIFECTA-perspective_74e21c19-980e-45ef-bd6c-78c1a6ce9381_small.jpg" 
-          alt="Netflix" 
+        <img
+          className="w-[100%] h-[100%] absolute object-cover"
+          src="https://assets.nflxext.com/ffe/siteui/vlv3/bfc0fc46-24f6-4d70-85b3-7799315c01dd/web/IN-en-20240923-TRIFECTA-perspective_74e21c19-980e-45ef-bd6c-78c1a6ce9381_small.jpg"
+          alt="Netflix"
         />
       </div>
 
@@ -40,11 +77,10 @@ function Login() {
           {isSignIn ? "Sign Up" : "Sign In"}
         </h1>
 
-        {!isSignIn && 
+        {isSignIn && 
           <input 
             type="text" 
             placeholder="Full Name" 
-            ref={nameRef} 
             className="p-3 my-3 w-full bg-gray-700" 
           />
         }

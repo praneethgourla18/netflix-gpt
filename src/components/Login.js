@@ -3,10 +3,13 @@ import Header from "./Header";
 import { validate } from "../utils/Validate";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(false);  // false means sign-in, true means sign-up
   const [data, setData] = useState(null);
+  // const [userData,setUserData]=useState(null);
+  const navigate = useNavigate();  //used for navigation between the routes
 
   const clicked = () => {
     setIsSignIn(!isSignIn);
@@ -39,11 +42,17 @@ function Login() {
         .then((userCredential) => {
           // User signed up
           const user = userCredential.user;
+          // setUserData(user);
+          
           setData("succesfully signed up!")
+           setTimeout(()=>{
+             navigate('/browse');
+           },500);
+          
         })
         .catch((error) => {
           const errorMessage = error.message;
-          setData("Account already exists ! Sign in.");
+          setData(errorMessage);
         });
     } 
     // Sign-in (when isSignIn is false)
@@ -53,6 +62,11 @@ function Login() {
           // User signed in
           const user = userCredential.user;
           setData("succesfully signed in!")
+          
+          // setUserData(user);
+          setTimeout(()=>{
+             navigate('/browse');
+           },500);
         })
         .catch((error) => {
           const errorMessage = error.message;

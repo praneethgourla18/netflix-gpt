@@ -43,7 +43,7 @@ function Login() {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          setData(errorMessage);
+          setData("Account already exists ! Sign in.");
         });
     } 
     // Sign-in (when isSignIn is false)
@@ -56,7 +56,7 @@ function Login() {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          setData(errorMessage);
+          setData("Invalid email or password !");
         });
     }
   };
@@ -66,13 +66,13 @@ function Login() {
       <Header />
       <div>
         <img
-          className="w-[100%] h-[100%] absolute object-cover"
+          className="absolute object-cover"
           src="https://assets.nflxext.com/ffe/siteui/vlv3/bfc0fc46-24f6-4d70-85b3-7799315c01dd/web/IN-en-20240923-TRIFECTA-perspective_74e21c19-980e-45ef-bd6c-78c1a6ce9381_small.jpg"
           alt="Netflix"
         />
       </div>
 
-      <form onSubmit={handleSubmit} className="w-3/12 p-12 bg-black absolute my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80">
+      <form onSubmit={handleSubmit} className="w-3/12 p-12 bg-black absolute my-32 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80">
         <h1 className="text-3xl py-2 font-semibold">
           {isSignIn ? "Sign Up" : "Sign In"}
         </h1>
@@ -81,7 +81,7 @@ function Login() {
           <input 
             type="text" 
             placeholder="Full Name" 
-            className="p-3 my-3 w-full bg-gray-700" 
+            className="p-3 my-3 w-full bg-gray-700 bg-opacity-60 focus:border-blue-500" 
           />
         }
 
@@ -89,17 +89,17 @@ function Login() {
           type="text" 
           placeholder="Email address" 
           ref={emailRef} 
-          className="p-3 my-3 w-full bg-gray-700" 
+          className="p-3 my-3 w-full bg-gray-700 bg-opacity-60" 
         />
 
         <input 
           type="password" 
           placeholder="Password" 
           ref={passwordRef} 
-          className="p-3 my-3 w-full bg-gray-700" 
+          className="p-3 my-3 w-full bg-gray-700 bg-opacity-60" 
         />
 
-        {data && <p className="text-red-500">{data}</p>}
+        {data && <p className="text-red-500 text-md font-semibold">{data}</p>}
 
         <button className="p-4 my-3 w-full bg-red-700">
           {isSignIn ? "Sign Up" : "Sign In"}

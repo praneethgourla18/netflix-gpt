@@ -15,7 +15,7 @@ export const validate = (email,password) => {
   }
   
   if (!isPasswordValid) {
-    return "Password must be at least 8 characters long";
+    return "Password must be at least 8 characters";
   }
 
   return null; // All validations passed

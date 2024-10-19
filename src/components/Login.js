@@ -1,24 +1,21 @@
 import { useState, useRef } from "react";
 import Header from "./Header";
-import { validate , validateName} from "../utils/Validate";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { validate, validateName } from "../utils/Validate";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(true);  // false means sign-up, true means sign-in
   const [data, setData] = useState(null);
-  // const [userData,setUserData]=useState(null);
-  const navigate = useNavigate();  //used for navigation between the routes
+  const navigate = useNavigate();  // used for navigation between the routes
 
   const clicked = () => {
     setIsSignIn(!isSignIn);
-    
+
     if (emailRef.current) emailRef.current.value = "";
-    
     if (passwordRef.current) passwordRef.current.value = "";
-    
-     if (nameRef.current) nameRef.current.value = "";
+    if (nameRef.current) nameRef.current.value = "";
     setData(null);
   };
 
@@ -30,15 +27,13 @@ function Login() {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    
-    let validationResult=null;
-    
+
+    let validationResult = null;
+
     if (!isSignIn) {
-      const fullName = nameRef.current.value;
+      var fullName = nameRef.current.value;
       validationResult = validateName(email, password, fullName);
-    } 
-      
-    else {
+    } else {
       validationResult = validate(email, password);
     }
 
@@ -50,21 +45,24 @@ function Login() {
 
     // Sign-up (when isSignIn is false)
     if (!isSignIn) {
+      const fullName = nameRef.current.value; // Capture full name
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // User signed up
           const user = userCredential.user;
-          // setUserData(user);
-          
-          setData("succesfully signed up!")
-           setTimeout(()=>{
-             navigate('/browse');
-           },500);
-          
+
+          // Update user profile
+         updateProfile(user, { displayName: fullName }); // Set photoURL if you have one
+        })
+        .then(() => {
+          setData("Successfully signed up!");
+          setTimeout(() => {
+            navigate('/browse');
+          }, 500);
         })
         .catch((error) => {
           const errorMessage = error.message;
-          setData(error.code+" "+ errorMessage);
+          setData(error.code + " " + errorMessage);
         });
     } 
     // Sign-in (when isSignIn is true)
@@ -72,20 +70,15 @@ function Login() {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // User signed in
-          const User = userCredential.user;
-          setData("succesfully signed in!")
-          
-          // setUserData(user);
-          setTimeout(()=>{
-             navigate('/browse');
-           },500);
+          const user = userCredential.user;
+          setData("Successfully signed in!");
+          setTimeout(() => {
+            navigate('/browse');
+          }, 500);
         })
         .catch((error) => {
           const errorMessage = error.message;
-          
-            setData(errorMessage);
-          
-        
+          setData(errorMessage);
         });
     }
   };
@@ -131,7 +124,7 @@ function Login() {
 
         {data && <p className="text-red-500 text-md font-semibold">{data}</p>}
 
-        <button className="p-4 my-3 w-full bg-red-700 rounded-lg  font-semibold">
+        <button className="p-4 my-3 w-full bg-red-700 rounded-lg font-semibold">
           {!isSignIn ? "Sign Up" : "Sign In"}
         </button>
 

@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
 import Header from "./Header";
-import { validate } from "../utils/Validate";
+import { validate , validateName} from "../utils/Validate";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [isSignIn, setIsSignIn] = useState(false);  // false means sign-in, true means sign-up
+  const [isSignIn, setIsSignIn] = useState(true);  // false means sign-up, true means sign-in
   const [data, setData] = useState(null);
   // const [userData,setUserData]=useState(null);
   const navigate = useNavigate();  //used for navigation between the routes
@@ -18,26 +18,38 @@ function Login() {
     
     if (passwordRef.current) passwordRef.current.value = "";
     
+     if (nameRef.current) nameRef.current.value = "";
     setData(null);
   };
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const nameRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    
+    let validationResult=null;
+    
+    if (!isSignIn) {
+      const fullName = nameRef.current.value;
+      validationResult = validateName(email, password, fullName);
+    } 
+      
+    else {
+      validationResult = validate(email, password);
+    }
 
-    const validationResult = validate(email, password);
-    setData(validationResult);
-
+    // Show validation error if any
     if (validationResult) {
+      setData(validationResult);
       return;
     }
 
-    // Sign-up (when isSignIn is true)
-    if (isSignIn) {
+    // Sign-up (when isSignIn is false)
+    if (!isSignIn) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // User signed up
@@ -52,15 +64,15 @@ function Login() {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          setData(errorMessage);
+          setData(error.code+" "+ errorMessage);
         });
     } 
-    // Sign-in (when isSignIn is false)
+    // Sign-in (when isSignIn is true)
     else {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // User signed in
-          const user = userCredential.user;
+          const User = userCredential.user;
           setData("succesfully signed in!")
           
           // setUserData(user);
@@ -70,7 +82,10 @@ function Login() {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          setData("Invalid email or password !");
+          
+            setData(errorMessage);
+          
+        
         });
     }
   };
@@ -88,20 +103,21 @@ function Login() {
 
       <form onSubmit={handleSubmit} className="w-3/12 p-12 bg-black absolute my-32 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80">
         <h1 className="text-3xl py-2 font-semibold">
-          {isSignIn ? "Sign Up" : "Sign In"}
+          {!isSignIn ? "Sign Up" : "Sign In"}
         </h1>
 
-        {isSignIn && 
+        {!isSignIn && 
           <input 
             type="text" 
             placeholder="Full Name" 
+            ref={nameRef}
             className="p-3 my-3 w-full bg-gray-700 bg-opacity-60 focus:border-blue-500" 
           />
-        }
+        } 
 
         <input 
           type="text" 
-          placeholder="Email address" 
+          placeholder="Email Address" 
           ref={emailRef} 
           className="p-3 my-3 w-full bg-gray-700 bg-opacity-60" 
         />
@@ -115,12 +131,12 @@ function Login() {
 
         {data && <p className="text-red-500 text-md font-semibold">{data}</p>}
 
-        <button className="p-4 my-3 w-full bg-red-700">
-          {isSignIn ? "Sign Up" : "Sign In"}
+        <button className="p-4 my-3 w-full bg-red-700 rounded-lg  font-semibold">
+          {!isSignIn ? "Sign Up" : "Sign In"}
         </button>
 
         <p className="cursor-pointer my-2 hover:underline" onClick={clicked}>
-          {isSignIn ? "Already on Netflix? Sign In!" : "New to Netflix? Join now!"}
+          {!isSignIn ? "Already on Netflix? Sign In!" : "New to Netflix? Join now!"}
         </p>
       </form>
     </div>

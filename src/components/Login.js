@@ -3,12 +3,11 @@ import Header from "./Header";
 import { validate, validateName } from "../utils/Validate";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(true);  // false means sign-up, true means sign-in
   const [data, setData] = useState(null);
-  const navigate = useNavigate();  // used for navigation between the routes
+  
 
   const clicked = () => {
     setIsSignIn(!isSignIn);
@@ -56,9 +55,7 @@ function Login() {
         })
         .then(() => {
           setData("Successfully signed up!");
-          setTimeout(() => {
-            navigate('/browse');
-          }, 500);
+         
         })
         .catch((error) => {
           const errorMessage = error.message;
@@ -72,9 +69,7 @@ function Login() {
           // User signed in
           const user = userCredential.user;
           setData("Successfully signed in!");
-          setTimeout(() => {
-            navigate('/browse');
-          }, 500);
+          
         })
         .catch((error) => {
           const errorMessage = error.message;

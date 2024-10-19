@@ -7,20 +7,20 @@ import { auth } from "../utils/firebase";
 function Login() {
   const [isSignIn, setIsSignIn] = useState(true);  // false means sign-up, true means sign-in
   const [data, setData] = useState(null);
-  
+
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const nameRef = useRef(null);
 
   const clicked = () => {
     setIsSignIn(!isSignIn);
 
+    // Clear the input fields
     if (emailRef.current) emailRef.current.value = "";
     if (passwordRef.current) passwordRef.current.value = "";
     if (nameRef.current) nameRef.current.value = "";
     setData(null);
   };
-
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const nameRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,50 +30,42 @@ function Login() {
     let validationResult = null;
 
     if (!isSignIn) {
-      var fullName = nameRef.current.value;
+      const fullName = nameRef.current.value;
       validationResult = validateName(email, password, fullName);
-    } else {
-      validationResult = validate(email, password);
-    }
+      if (validationResult) {
+        setData(validationResult);
+        return;
+      }
 
-    // Show validation error if any
-    if (validationResult) {
-      setData(validationResult);
-      return;
-    }
-
-    // Sign-up (when isSignIn is false)
-    if (!isSignIn) {
-      const fullName = nameRef.current.value; // Capture full name
+      // Sign-up process
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // User signed up
           const user = userCredential.user;
-
-          // Update user profile
-         updateProfile(user, { displayName: fullName }); // Set photoURL if you have one
+          // Update user profile with full name
+          return updateProfile(user, { displayName: fullName });
         })
         .then(() => {
           setData("Successfully signed up!");
-         
         })
         .catch((error) => {
-          const errorMessage = error.message;
-          setData(error.code + " " + errorMessage);
+          setData(`${error.code}: ${error.message}`);
         });
-    } 
-    // Sign-in (when isSignIn is true)
-    else {
+
+    } else {
+      // Sign-in process
+      validationResult = validate(email, password);
+      if (validationResult) {
+        setData(validationResult);
+        return;
+      }
+
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // User signed in
-          const user = userCredential.user;
           setData("Successfully signed in!");
-          
         })
         .catch((error) => {
-          const errorMessage = error.message;
-          setData(errorMessage);
+          setData(error.message);
         });
     }
   };

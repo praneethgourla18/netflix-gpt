@@ -1,10 +1,14 @@
 import Header from "./Header";
-
+import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
+import MainContainer from "./MainContainer";
 function Browse(){
+
+   useNowPlayingMovies();
+   
   return (
     <div>
-      <Header/>
-    
+       <Header/>
+       <MainContainer/>
     </div>
   )
 }

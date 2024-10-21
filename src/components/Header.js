@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LOGO, userIcon } from "../utils/constants";
 import { auth } from "../utils/firebase";
+import { changeGptSearch } from "../utils/gptSlice";
 import { addUser, removeUser } from "../utils/userSlice";
 
 function Header() {
@@ -11,6 +12,10 @@ function Header() {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
   const [clicked, setClicked] = useState(false);
+ 
+  const handleGptClick = () => {
+     dispatch(changeGptSearch());
+  }
 
   const handleSignOut = () => {
     signOut(auth)
@@ -45,7 +50,10 @@ function Header() {
 
       {user && (
         <div className="px-4 py-4 flex items-center text-white relative">
+
+          <button className="p-2 bg-white text-black font-semibold mr-8 rounded-lg" onClick={handleGptClick}>GPT Search</button>
           <div className="flex items-center gap-2">
+            
             <img className="w-10 h-10 rounded-full" src={userIcon} alt="user icon" />
             <button
               className="text-xl focus:outline-none"
@@ -57,9 +65,9 @@ function Header() {
 
           <aside
             className={`absolute top-16 right-0 bg-black text-white text-lg shadow-lg rounded-lg w-48 p-4 transition-transform duration-300 ease-in-out transform ${
-              clicked ? 'translate-x-0' : 'translate-x-full'
+              clicked ? 'translate-x-0' : 'hidden'
             }`}
-            style={{ zIndex: 20 }}
+            style={{ zIndex: 20,transform: clicked ? 'translateX(0)' : 'translateX(100%)' }}
           >
             <div className="text-white font-lg p-2 mb-2">
               <h1 className="font-sans hover:italic">Hii {user.displayName} 🖐</h1>

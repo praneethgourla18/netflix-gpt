@@ -61,10 +61,13 @@ function Header() {
             }`}
             style={{ zIndex: 20 }}
           >
+            <div className="text-white font-lg p-2 mb-2">
+              <h1 className="font-sans hover:italic">Hii {user.displayName} 🖐</h1>
+            </div>
             <ul className="flex flex-col gap-2">
               <li>
                 <button className="w-full text-left p-2 hover:outline hover:outline-2 hover:outline-gray-400 transition duration-200 ease-in-out rounded-lg">
-                  Account
+                  Edit profile
                 </button>
               </li>
               <li>

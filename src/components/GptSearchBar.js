@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import client from "../utils/openaiClient";
-import { useDispatch } from "react-redux";
-import { addGptMovieResults } from "../utils/gptSlice";
+import { useDispatch} from "react-redux";
+import { addGptMovieResults, changeSearchClicked } from "../utils/gptSlice";
 import { options } from "../utils/constants";
 
 const GptSearchBar = () => {
@@ -21,6 +21,7 @@ const GptSearchBar = () => {
   };
 
   const handleSearch = async () => {
+    dispatch(changeSearchClicked());
     const gptQuery =
       "Act as a Movie Recommendation system and suggest some movies for the query: " +
       searchText.current.value +

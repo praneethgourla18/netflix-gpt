@@ -1,8 +1,13 @@
 import { useSelector } from "react-redux";
 import MovieCard from "./MovieCard";
+import GptMovieShimmer from "./GptMovieShimmer";
 
 const GptMovieSuggestions = () => {
   const gptResult = useSelector((store) => store.gpt.gptResult);
+
+  if(!gptResult){
+    return <GptMovieShimmer/>
+  }
   const { movieResults = [], movieNames = [] } = gptResult || {}; // Default values
 
   if (!movieNames.length) return null; // Check for an empty array

@@ -11,6 +11,7 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
+  const gptClicked = useSelector((store) => store.gpt.gptSearch);
   const [clicked, setClicked] = useState(false);
  
   const handleGptClick = () => {
@@ -51,7 +52,7 @@ function Header() {
       {user && (
         <div className="px-4 py-4 flex items-center text-white relative">
 
-          <button className="p-2 bg-white text-black font-semibold mr-8 rounded-lg" onClick={handleGptClick}>GPT Search</button>
+          <button className="p-2 bg-white text-black font-semibold mr-8 rounded-lg" onClick={handleGptClick}> {gptClicked ? "Home" : "GPT Search"}</button>
           <div className="flex items-center gap-2">
             
             <img className="w-10 h-10 rounded-full" src={userIcon} alt="user icon" />

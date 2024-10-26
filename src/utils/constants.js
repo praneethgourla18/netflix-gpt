@@ -6,8 +6,13 @@ export const options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MTJlZTA4MzUyMzk1NzVhZGRmMjcwMDNlNWE5NWRkMiIsIm5iZiI6MTcyOTQxOTMzMC42NDU1ODQsInN1YiI6IjY3MTRkNzYwMGNiNjI1MmY5OTA4YWU0YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jxBOuSKqXIk43BOzCC9qH_1YLXxynOZGIMrLH8gUqqA'
+    Authorization: `Bearer ${process.env.REACT_APP_AUTHORIZATION_TOKEN}`,
   }
 };
 
 export const IMG_CDN = "https://image.tmdb.org/t/p/w500/"
+
+export const endpoint = "https://prane-m2q0f98u-australiaeast.openai.azure.com/";
+export const apiKey=process.env.REACT_APP_AZURE_OPENAI_API_KEY;
+export const apiVersion = "2024-05-01-preview";
+export const deployment = "gpt-35-turbo-16k";

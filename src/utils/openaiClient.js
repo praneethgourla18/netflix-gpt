@@ -1,9 +1,9 @@
 import { AzureOpenAI } from "openai";
-import { endpoint, apiKey, apiVersion, deployment } from "./constants.js";
+import { endpoint,  apiVersion, deployment } from "./constants.js";
 
 const client = new AzureOpenAI({
   endpoint,
-  apiKey,
+  apiKey:process.env.REACT_APP_AZURE_OPENAI_API_KEY,
   apiVersion,
   deployment,
   dangerouslyAllowBrowser: true,

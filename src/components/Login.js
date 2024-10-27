@@ -71,18 +71,16 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="relative h-screen overflow-hidden">
       <Header />
-      <div>
-        <img
-          className="absolute object-cover"
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/bfc0fc46-24f6-4d70-85b3-7799315c01dd/web/IN-en-20240923-TRIFECTA-perspective_74e21c19-980e-45ef-bd6c-78c1a6ce9381_small.jpg"
-          alt="Netflix"
-        />
-      </div>
+      <img
+        className="absolute inset-0 object-cover w-full h-full"
+        src="https://assets.nflxext.com/ffe/siteui/vlv3/bfc0fc46-24f6-4d70-85b3-7799315c01dd/web/IN-en-20240923-TRIFECTA-perspective_74e21c19-980e-45ef-bd6c-78c1a6ce9381_small.jpg"
+        alt="Netflix"
+      />
 
-      <form onSubmit={handleSubmit} className="w-3/12 p-12 bg-black absolute my-32 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80">
-        <h1 className="text-3xl py-2 font-semibold">
+      <form onSubmit={handleSubmit} className="w-10/12 sm:w-8/12 md:w-5/12 lg:w-3/12 p-8 md:p-12 bg-black absolute my-32 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80">
+        <h1 className="text-2xl md:text-3xl py-2 font-semibold">
           {!isSignIn ? "Sign Up" : "Sign In"}
         </h1>
 
@@ -91,7 +89,7 @@ function Login() {
             type="text" 
             placeholder="Full Name" 
             ref={nameRef}
-            className="p-3 my-3 w-full bg-gray-700 bg-opacity-60 focus:border-blue-500" 
+            className="p-3 my-3 w-full bg-gray-700 bg-opacity-60 border border-transparent shadow-lg focus:border-[#E50914] focus:outline-none rounded-lg" 
           />
         } 
 
@@ -99,14 +97,14 @@ function Login() {
           type="text" 
           placeholder="Email Address" 
           ref={emailRef} 
-          className="p-3 my-3 w-full bg-gray-700 bg-opacity-60" 
+          className="p-3 my-3 w-full bg-gray-700 bg-opacity-60 border border-transparent shadow-lg focus:border-[#E50914] focus:outline-none rounded-lg" 
         />
 
         <input 
           type="password" 
           placeholder="Password" 
           ref={passwordRef} 
-          className="p-3 my-3 w-full bg-gray-700 bg-opacity-60" 
+          className="p-3 my-3 w-full bg-gray-700 bg-opacity-60 border border-transparent shadow-lg focus:border-[#E50914] focus:outline-none rounded-lg" 
         />
 
         {data && <p className="text-red-500 text-md font-semibold">{data}</p>}
@@ -115,7 +113,7 @@ function Login() {
           {!isSignIn ? "Sign Up" : "Sign In"}
         </button>
 
-        <p className="cursor-pointer my-2 hover:underline" onClick={clicked}>
+        <p className="cursor-pointer my-2 hover:underline text-center" onClick={clicked}>
           {!isSignIn ? "Already on Netflix? Sign In!" : "New to Netflix? Join now!"}
         </p>
       </form>

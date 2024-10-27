@@ -43,7 +43,7 @@ function Header() {
         navigate("/");
       }
     });
-  }, []);
+  }, [dispatch, navigate]);
 
   return (
     <div className="absolute bg-gradient-to-b from-black w-full z-10 flex justify-between items-center">

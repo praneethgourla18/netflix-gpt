@@ -1,4 +1,13 @@
-const VideoTitle = ({title,overview}) =>{
+import { useNavigate } from "react-router-dom";
+import { MOVIE_CONTENT } from "../utils/constants";
+
+const VideoTitle = ({title,overview,id}) =>{
+  
+  const navigate=useNavigate();
+  
+  const handlePlayBtn = () => {
+    navigate("/player/" + MOVIE_CONTENT + "/" + id);
+  };
    
   return ( 
     <div className="absolute pt-[25%] md:pt-48 px-4 md:px-12 text-white bg-gradient-to-r from-black w-screen aspect-video">
@@ -6,7 +15,7 @@ const VideoTitle = ({title,overview}) =>{
       <h1 className="md:text-4xl my-4 font-bold text-xl">{title}</h1>
       <h1 className="hidden md:inline-block my-2 w-1/3 font-small">{overview}</h1>
       <div>
-       <button className="py-1 px-4 bg-white font-semibold text-black rounded-lg md:py-2 md:px-8 mr-2 md:my-2"> ▷ Play</button>
+       <button className="py-1 px-4 bg-white font-semibold text-black rounded-lg md:py-2 md:px-8 mr-2 md:my-2" onClick={handlePlayBtn}> ▷ Play</button>
        <button className="py-1 px-4 bg-white font-semibold text-black rounded-lg md:py-2 md:px-8 md:my-2" > ⓘ More info</button>
       </div>
       </div> 

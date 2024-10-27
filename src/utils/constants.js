@@ -15,4 +15,6 @@ export const IMG_CDN = "https://image.tmdb.org/t/p/w500/"
 export const endpoint = "https://prane-m2q0f98u-australiaeast.openai.azure.com/";
 export const apiKey=process.env.REACT_APP_AZURE_OPENAI_API_KEY;
 export const apiVersion = "2024-05-01-preview";
-export const deployment = "gpt-35-turbo-16k";
+export const deployment = "gpt-35-turbo-16k"
+
+export const MOVIE_CONTENT = "movie";

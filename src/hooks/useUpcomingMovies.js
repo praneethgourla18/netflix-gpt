@@ -14,7 +14,7 @@ const useUpcomingMovies = () => {
 
   useEffect(() => {
     getUpcomingMovies();
-  }, []);  // Added dispatch to dependency array
+  }, [getUpcomingMovies]);  // Added dispatch to dependency array
 
   return null;  // Custom hook does not return any JSX or value
 };

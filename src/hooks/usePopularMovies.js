@@ -14,7 +14,7 @@ const usePopularMovies = () => {
 
   useEffect(() => {
     getPopularMovies();
-  }, []);  // Added dispatch to dependency array
+  }, [getPopularMovies]);  // Added dispatch to dependency array
 
   return null;  // Custom hook does not return any JSX or value
 };

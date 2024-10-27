@@ -14,7 +14,7 @@ const useTopRatedMovies = () => {
 
   useEffect(() => {
     getTopRatedMovies();
-  }, []);  // Added dispatch to dependency array
+  }, [getTopRatedMovies]);  // Added dispatch to dependency array
 
   return null;  // Custom hook does not return any JSX or value
 };

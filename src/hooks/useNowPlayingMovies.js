@@ -14,7 +14,7 @@
 
     useEffect(() => {
       getNowPlaying();
-    }, []);  // Added dispatch to dependency array
+    }, [getNowPlaying]);  // Added dispatch to dependency array
 
     return null;  // Custom hook does not return any JSX or value
   };

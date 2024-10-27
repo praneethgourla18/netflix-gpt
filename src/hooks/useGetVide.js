@@ -16,6 +16,6 @@ const useGetVideo = ({Id}) =>{
 
   useEffect(() => {
     getVideo(Id);
-  }, []);
+  }, [Id, getVideo]);
 }
 export default useGetVideo;

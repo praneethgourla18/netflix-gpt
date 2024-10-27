@@ -11,7 +11,7 @@ const GptMovieShimmer = () => {
           {[...Array(5)].map((_, index) => (
             <div
               key={index}
-              className="min-w-[180px] h-[250px] bg-gray-700 rounded-md animate-pulse hover:scale-[1.05] hover:shadow-lg transform transition-transform duration-300 ease-in-out mr-4"
+              className="min-w-[150px] h-[200px] md:min-w-[180px] md:h-[250px] bg-gray-700 rounded-md animate-pulse hover:scale-[1.05] hover:shadow-lg transform transition-transform duration-300 ease-in-out"
             ></div>
           ))}
         </div>

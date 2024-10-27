@@ -57,12 +57,12 @@ const GptSearchBar = () => {
 
   return (
     <div className="pt-40 w-full flex justify-center">
-      <div className="relative w-[50%]">
+      <div className="relative w-[80%] md:w-[50%] shadow-lg">
         <input
           ref={searchText}
           type="text"
           placeholder="What do you want to watch today?"
-          className="w-full py-4 px-8 bg-black text-white rounded-full focus:outline-[#E50914] pr-12" 
+          className="w-full py-4 px-4 md:px-8 bg-black text-white rounded-full border border-gray-600 shadow-lg focus:border-[#E50914] focus:outline-none placeholder:text-gray-500" 
         />
         <button
           className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-[#E50914] hover:bg-black text-black font-semibold rounded-full p-2" 
